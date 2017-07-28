@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="dash_circle">#9999FF</color>
+    
+    <color name="purple_deep">#651FFF</color>
+    <color name="pink_deep">#ff3399</color>
+    <color name="pink_light">#ffaaaa</color>
+    <color name="yellow">#ffeb3b</color>
+    <color name="green_light">#8BC34A</color>
+    <color name="orange">#FF3D00</color>
+
+    <array name="menu_colors">
+        <item>@color/purple_deep</item>
+        <item>@color/pink_deep</item>
+        <item>@color/pink_light</item>
+        <item>@color/yellow</item>
+        <item>@color/green_light</item>
+        <item>@color/orange</item>
+    </array>
+</resources>
