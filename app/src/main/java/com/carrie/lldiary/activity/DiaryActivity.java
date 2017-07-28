@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.carrie.lldiary.R;
 
+
 public class DiaryActivity extends AppCompatActivity {
 
     @Override
