@@ -5,7 +5,7 @@
     android:orientation="vertical"
     >
 
-    <com.carrie.lldiary.viewModel.view.CircleView
+    <com.carrie.lianlian.view.CircleView
         android:id="@+id/view_circle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

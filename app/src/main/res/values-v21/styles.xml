@@ -25,4 +25,9 @@
         <item name="android:fitsSystemWindows">true</item>
     </style>
 
+    <style name="MyToolBar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:actionMenuTextColor">#ffffff</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
 </resources>

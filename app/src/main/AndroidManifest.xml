@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.carrie.lldiary">
+    package="com.carrie.lianlian">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -29,7 +29,9 @@
             android:name=".base.BaseActivity"
             android:label="@string/title_activity_base" />
         <activity android:name=".activity.DiaryActivity" />
-        <activity android:name=".activity.DiaryEditActivity"></activity>
+        <activity android:name=".activity.DiaryEditActivity" />
+        <activity android:name=".activity.PlanActivity" />
+        <activity android:name=".activity.CommonActivity"></activity>
     </application>
 
 </manifest>

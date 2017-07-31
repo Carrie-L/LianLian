@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.carrie.lldiary.base.BaseFragment">
+    tools:context="com.carrie.lianlian.base.BaseFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
