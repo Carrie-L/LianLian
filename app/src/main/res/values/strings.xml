@@ -9,6 +9,24 @@
 
     <string name="menu_label">标签</string>
     <string name="menu_search">搜索</string>
+    <string name="menu_share">分享</string>
+    <string name="menu_edit">编辑</string>
+
+    <string name="diary">日记</string>
+    <string name="edit_diary">编辑日记</string>
+    <string name="diary_open_edit">已开启编辑模式</string>
+    <string name="hint_diary_title">输入标题</string>
+    <string name="hint_diary_content">输入日记内容</string>
+    <string name="diary_select_weather">选择天气</string>
+    <string name="diary_select_mood">选择心情</string>
+    <string name="diary_select_bg">选择背景</string>
+    <string name="label">标签</string>
+    <string name="label_add">添加标签</string>
+    <string name="size_small">小(12sp)</string>
+    <string name="size_middle">中(14sp)</string>
+    <string name="size_large">大(16sp)</string>
+    <string name="size_x_large">加大(20sp)</string>
+    <string name="size_xx_large">超大(24sp)</string>
 
 
 </resources>

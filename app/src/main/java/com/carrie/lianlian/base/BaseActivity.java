@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -19,7 +20,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.carrie.lianlian.App;
 import com.carrie.lianlian.R;
+import com.carrie.lianlian.dao.DBHelper;
 import com.carrie.lianlian.utils.ColorDeeperUtil;
 import com.carrie.lianlian.utils.LogUtil;
 
@@ -28,23 +31,43 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected FrameLayout mBaseFrameLayout;
     protected Toolbar toolbar;
     /**
-     * 是否加深状态栏的颜色
+     * 是否加深状态栏的颜色。true,加深；false，则与ToolBar的颜色相同
      */
-    protected boolean isDeeperStatusBar = true;
+    protected boolean isDeeperStatusBar = false;
+
+    protected SearchView searchView;
+    protected int mMenuLayout = R.menu.menu_toolbar;
+    protected DBHelper mDBHelper;
+    private FloatingActionButton mFAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         mBaseFrameLayout = (FrameLayout) findViewById(R.id.frame_base_content);
+        mFAB = (FloatingActionButton) findViewById(R.id.fab);
         initToolBar();
         TAG = getClass().getSimpleName();
         LogUtil.i(TAG, "TAG=" + TAG);
+
+        mDBHelper = App.mDBHelper;
+        mFAB.setOnClickListener(mListener);
 
         preView();
         initView(getLayoutInflater());
         initData();
     }
+
+   View.OnClickListener mListener = new View.OnClickListener() {
+       @Override
+       public void onClick(View v) {
+           setOnFABClick();
+       }
+   };
+
+   protected void setOnFABClick(){
+
+   }
 
     protected abstract void preView();
 
@@ -63,9 +86,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+            actionBar.setTitle("日记本");
         }
-        toolbar.setTitle("日记本");
-        toolbar.setTitleTextColor(Color.WHITE);
+
     }
 
     private void setStatusColor(int color) {
@@ -109,10 +133,38 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(mMenuLayout, menu);
+        final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        if (menuItem != null) {
+            searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    if (!searchView.isIconified()) {
+                        searchView.setIconified(true);
+                    }
+                    menuItem.collapseActionView();
+                    return false;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    return false;
+                }
+            });
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.menu_label:
+                Toast.makeText(getApplicationContext(), "label", Toast.LENGTH_SHORT).show();
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.carrie.lianlian.R;
-import com.carrie.lianlian.model.DiaryViewModel;
 
-import org.w3c.dom.Text;
 
 /**
  * Created by Carrie on 2017/7/31.

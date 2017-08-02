@@ -10,4 +10,10 @@
         app:actionViewClass="android.support.v7.widget.SearchView"
         />
 
+    <item
+        android:id="@+id/menu_label"
+        android:icon="@drawable/ic_label"
+        android:title="@string/menu_label"
+        app:showAsAction="ifRoom" />
+
 </menu>

@@ -34,7 +34,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 
 	private static String APP_ERROR = "很抱歉,程序出现异常,即将退出.";
 
-	public static final String TAG = "CrashHandler: LianLian ";
+	public static final String TAG = "CrashHandler: LLDiary ";
 
 	// 系统默认的UncaughtException处理类
 	private UncaughtExceptionHandler mDefaultHandler;

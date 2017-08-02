@@ -24,7 +24,6 @@
             android:name="io.fabric.ApiKey"
             android:value="e9711e47de2f01e87b1b2a761338687e93c10e5d" />
 
-        <activity android:name=".Person" />
         <activity
             android:name=".base.BaseActivity"
             android:label="@string/title_activity_base" />

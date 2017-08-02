@@ -5,6 +5,7 @@
     <color name="colorAccent">#8BC34A</color>
 
     <color name="white">#ffffff</color>
+    <color name="primary_text_color_trans">#b2000000</color><!--b2开头：70%的不透明度-->
 
 
     <color name="dash_circle">#9999FF</color>
