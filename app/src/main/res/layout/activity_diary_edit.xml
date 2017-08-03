@@ -1,47 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/diary_container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar"
+    <data>
+
+        <variable
+            name="viewmodel"
+            type="com.carrie.lianlian.viewModel.DiaryEditViewModel" />
+    </data>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/diary_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        >
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
-            app:contentScrim="@android:color/transparent"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true">
 
-            <LinearLayout
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                app:contentScrim="@android:color/white">
+                android:fitsSystemWindows="true"
+                app:contentScrim="@android:color/transparent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar_edit_diary"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:theme="@style/MyToolBar"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:contentScrim="@android:color/white">
 
-                <include layout="@layout/header_diary" />
-            </LinearLayout>
+                    <android.support.v7.widget.Toolbar
+                        android:id="@+id/toolbar_edit_diary"
+                        android:layout_width="match_parent"
+                        android:layout_height="?attr/actionBarSize"
+                        android:theme="@style/MyToolBar"
+                        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-        </android.support.design.widget.CollapsingToolbarLayout>
-    </android.support.design.widget.AppBarLayout>
+                    <include
+                        android:id="@+id/include_header"
+                        layout="@layout/header_diary"
+                        app:viewmodel="@{viewmodel}" />
+                </LinearLayout>
+
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
 
 
-    <include layout="@layout/content_scrolling" />
+        <include
+            android:id="@+id/include_content"
+            layout="@layout/content_scrolling"
+            app:viewmodel="@{viewmodel}" />
 
 
-</android.support.design.widget.CoordinatorLayout>
+    </android.support.design.widget.CoordinatorLayout>
+</layout>

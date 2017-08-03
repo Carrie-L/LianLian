@@ -28,5 +28,7 @@
     <string name="size_x_large">加大(20sp)</string>
     <string name="size_xx_large">超大(24sp)</string>
 
+    <string name="save_success">保存成功</string>
+
 
 </resources>

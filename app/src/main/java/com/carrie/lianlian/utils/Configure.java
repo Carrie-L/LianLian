@@ -7,6 +7,9 @@ package com.carrie.lianlian.utils;
 public class Configure {
     public static final String SP_CONFIG_NAME="config";
 
+    /** 数据表的 id */
+    public static final String ID="_id";
+
 
 
 

@@ -1,43 +1,47 @@
 package com.carrie.lianlian.view;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.app.Activity;
+import android.databinding.ViewDataBinding;
 
+import com.carrie.lianlian.BR;
 import com.carrie.lianlian.R;
+import com.carrie.lianlian.base.LLBaseAdapter;
+import com.carrie.lianlian.dao.Diary;
 
+import java.util.ArrayList;
 
 /**
- * Created by Carrie on 2017/7/31.
+ * 日记列表适配器
+ * Created by Carrie on 2017/8/3.
  */
 
-public class DiaryAdapter extends RecyclerView.Adapter<DiaryAdapter.DiaryViewHolder> {
+public class DiaryAdapter extends LLBaseAdapter {
+    private ArrayList<Diary> list;
+    private Activity activity;
 
+    public DiaryAdapter(ArrayList<Diary> list, Activity activity) {
+        this.list = list;
+        this.activity=activity;
+    }
 
     @Override
-    public DiaryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new DiaryViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_diary,parent,false));
+    protected Object getObjForPosition(int position) {
+        return list.get(position);
+    }
+
+    @Override
+    protected int getLayoutIdForPosition(int position) {
+        return R.layout.item_diary;
     }
 
     @Override
     public int getItemCount() {
-        return 50;
+        return list.size();
     }
 
     @Override
-    public void onBindViewHolder(DiaryViewHolder holder, int position) {
-        holder.tvDiary.setText("呵呵");
+    protected void bindVariable(ViewDataBinding binding) {
+        super.bindVariable(binding);
+        binding.setVariable(BR.activity,activity);
     }
-
-    public static class DiaryViewHolder extends RecyclerView.ViewHolder{
-        private TextView tvDiary;
-        public DiaryViewHolder(View itemView) {
-            super(itemView);
-            tvDiary= (TextView) itemView.findViewById(R.id.tv_diary);
-        }
-    }
-
-
 }

@@ -104,11 +104,11 @@ public class App extends Application {
         Diary diary;
         if (cursor != null) {
             while (cursor.moveToNext()) {
-                diary = new Diary();
-                diary.setData(cursor, diary);
-                LogUtil.i("DaoMaster", "diary=" + diary.toString());
-                mDiaryId = mDBHelper.insertDiary(diary);
-                LogUtil.i("DaoMaster", "mDiaryId=" + mDiaryId);
+//                diary = new Diary();
+//                diary.setData(cursor, diary);
+//                LogUtil.i("DaoMaster", "diary=" + diary.toString());
+//                mDiaryId = mDBHelper.insertDiary(diary);
+//                LogUtil.i("DaoMaster", "mDiaryId=" + mDiaryId);
             }
             cursor.close();
         }

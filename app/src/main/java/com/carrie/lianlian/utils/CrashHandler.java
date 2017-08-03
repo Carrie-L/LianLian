@@ -150,7 +150,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 			try {
 				field.setAccessible(true);
 				infos.put(field.getName(), field.get(null).toString());
-				Log.d(TAG, field.getName() + " : " + field.get(null));
+//				Log.d(TAG, field.getName() + " : " + field.get(null));
 			} catch (Exception e) {
 				Log.e(TAG, "an error occured when collect crash info", e);
 			}
@@ -175,26 +175,26 @@ public class CrashHandler implements UncaughtExceptionHandler {
 		printWriter.close();
 		Log.e(TAG,TAG+"=============================================\n\n\n"+writer.toString());
 //		FileUtils.writeFileToSD(writer.toString(),"CPS Crash Logs/logs_"+DateUtil.getCurrentTime()+".txt");
-		try {
-			String time = formatter.format(new Date());
-			String packageName = mContext.getPackageName();
-			String fileName = packageName + time + ".txt";
-			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-				String path = Environment.getExternalStorageDirectory() + "/Crash/";
-				File dir = new File(path);
-				if (!dir.exists()) {
-					dir.mkdirs();
-				}
-				FileOutputStream fos = new FileOutputStream(path + fileName);
-				fos.write(writer.toString().getBytes());
-				fos.close();
-			}
-			Log.e(TAG, "  writing file " + fileName);
-			return fileName;
-		} catch (Exception e) {
-			Log.e(TAG, "an error occured while writing file...", e);
-		}
-		writer=null;
+//		try {
+//			String time = formatter.format(new Date());
+//			String packageName = mContext.getPackageName();
+//			String fileName = packageName + time + ".txt";
+//			if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
+//				String path = Environment.getExternalStorageDirectory() + "/Crash/";
+//				File dir = new File(path);
+//				if (!dir.exists()) {
+//					dir.mkdirs();
+//				}
+//				FileOutputStream fos = new FileOutputStream(path + fileName);
+//				fos.write(writer.toString().getBytes());
+//				fos.close();
+//			}
+//			Log.e(TAG, "  writing file " + fileName);
+//			return fileName;
+//		} catch (Exception e) {
+//			Log.e(TAG, "an error occured while writing file...", e);
+//		}
+//		writer=null;
 		return null;
 	}
 }

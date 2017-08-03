@@ -43,5 +43,10 @@ public class DateUtil {
         return sdf.format(new Date());
     }
 
+    public static String getCurrentDateAndWeek() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+        return sdf.format(new Date());
+    }
+
 
 }
