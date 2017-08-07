@@ -25,4 +25,6 @@ public interface DiaryDataSource extends DataSource<Diary>{
 
     @Override
     void getData(@NonNull LoadDataCallback<Diary> callback);
+
+
 }

@@ -7,6 +7,7 @@ import com.carrie.lianlian.BR;
 import com.carrie.lianlian.R;
 import com.carrie.lianlian.base.LLBaseAdapter;
 import com.carrie.lianlian.dao.Diary;
+import com.carrie.lianlian.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,11 @@ public class DiaryAdapter extends LLBaseAdapter {
     public DiaryAdapter(ArrayList<Diary> list, Activity activity) {
         this.list = list;
         this.activity=activity;
+    }
+
+    public void setList(ArrayList<Diary> list){
+        this.list=list;
+        notifyDataSetChanged();
     }
 
     @Override

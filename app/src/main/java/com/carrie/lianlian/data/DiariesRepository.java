@@ -19,18 +19,22 @@ import static com.carrie.lianlian.App.mDBHelper;
 
 public class DiariesRepository implements DiaryDataSource {
     private DiaryDao diaryDao = mDBHelper.diaryDao;
-//    private final DiaryDataSource mDiaryLocalDataSource;
+    //    private final DiaryDataSource mDiaryLocalDataSource;
     private static DiariesRepository INSTANCE;
 
 //    private DiariesRepository(@NonNull DiaryDataSource diaryLocalDataSource){
 //        mDiaryLocalDataSource=diaryLocalDataSource;
 //    }
 
-    public static DiariesRepository getInstance(){
-        if(INSTANCE==null){
+    public static DiariesRepository getInstance() {
+        if (INSTANCE == null) {
             return new DiariesRepository();
         }
         return INSTANCE;
+    }
+
+    public void updateItemData(Diary diary) {
+        updateDiary(diary);
     }
 
     @Override
@@ -58,7 +62,11 @@ public class DiariesRepository implements DiaryDataSource {
 
     }
 
-    public Diary getItemData(long id){
+    public ArrayList<Diary> queryData(String queryText) {
+        return queryDiaries(queryText);
+    }
+
+    public Diary getItemData(long id) {
         return getDiary(id);
     }
 
@@ -80,13 +88,18 @@ public class DiariesRepository implements DiaryDataSource {
         return (ArrayList<Diary>) diaryDao.queryBuilder().where(DiaryDao.Properties.Label.eq(label)).orderAsc(DiaryDao.Properties.UpdateDate).list();
     }
 
-    public Diary getDiary(long id){
+    public Diary getDiary(long id) {
         return diaryDao.load(id);
     }
 
     public void deleteDiaryItem(Diary entity) {
         diaryDao.delete(entity);
     }
+
+    private ArrayList<Diary> queryDiaries(String queryText) {
+        return (ArrayList<Diary>) diaryDao.queryBuilder().whereOr(DiaryDao.Properties.Title.like("%"+queryText+"%"), DiaryDao.Properties.Content.like("%"+queryText+"%")).list();
+    }
+
 
     //  \\\\\\\\\\\\\\\     标签      \\\\\\\\\\\\
     public ArrayList<Label> getLabels() {

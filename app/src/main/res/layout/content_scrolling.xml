@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View" />
+        <variable
+            name="viewmodel"
+            type="com.carrie.lianlian.viewModel.DiaryEditViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:showIn="@layout/activity_diary_edit">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/et_diary_title"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/hint_diary_title"
+            android:imeOptions="actionNext"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:text="@={viewmodel.title}"
+            android:textColor="#ff000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            app:met_baseColor="@color/colorPrimary"
+            app:met_underlineColor="@color/colorPrimary"
+            />
+
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/et_diary_title">
+
+            <EditText
+                android:id="@+id/et_diary"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/et_diary_title"
+                android:background="@android:color/transparent"
+                android:gravity="top"
+                android:hint="@string/hint_diary_content"
+                android:paddingBottom="16dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="8dp"
+                android:text="@={viewmodel.content}"
+                android:textColor="@color/primary_text_color_trans"
+                android:textSize="14sp"
+                tools:showIn="@layout/activity_diary_edit"
+                />
+
+        </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_edit_diary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="28dp"
+            android:src="@drawable/ic_ok"
+            app:borderWidth="0dp"
+            app:fabSize="mini"
+            app:layout_anchor="@id/et_diary_title"
+            app:layout_anchorGravity="center"
+            app:rippleColor="@color/yellow"
+            android:visibility="@{viewmodel.isShowFAB?View.VISIBLE:View.INVISIBLE}"
+            android:clickable="@{viewmodel.isShowFAB}"
+            />
+
+    </RelativeLayout>
+
+</layout>

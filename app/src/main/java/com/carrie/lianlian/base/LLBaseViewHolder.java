@@ -7,6 +7,7 @@ import com.carrie.lianlian.BR;
 
 
 /**
+ * ViewHolder基类
  * Created by Carrie on 2017/8/3.
  */
 

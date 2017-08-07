@@ -1,7 +1,6 @@
 package com.carrie.lianlian.activity;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +13,7 @@ import android.widget.Toast;
 import com.carrie.lianlian.R;
 import com.carrie.lianlian.base.BaseActivity;
 import com.carrie.lianlian.dao.Diary;
+import com.carrie.lianlian.databinding.ActivityDiaryBinding;
 import com.carrie.lianlian.utils.Configure;
 import com.carrie.lianlian.utils.LogUtil;
 import com.carrie.lianlian.view.DiaryAdapter;
@@ -21,11 +21,9 @@ import com.carrie.lianlian.viewModel.DiaryViewModel;
 
 import java.util.ArrayList;
 
-import static android.R.attr.id;
-
 public class DiaryActivity extends BaseActivity {
-
     private DiaryViewModel mViewModel;
+    private ActivityDiaryBinding binding;
 
     @Override
     protected void preView() {
@@ -34,31 +32,27 @@ public class DiaryActivity extends BaseActivity {
 
     @Override
     protected View initView(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.activity_diary, mBaseFrameLayout);
+        binding = ActivityDiaryBinding.inflate(inflater,mBaseFrameLayout,true);
+        return binding.getRoot();
     }
 
     @Override
     protected void initData() {
-        RecyclerView rvDiary = (RecyclerView) findViewById(R.id.rv_diary);
+        mViewModel = new DiaryViewModel(getApplicationContext(),mDiariesRepository);
+        binding.setViewmodel(mViewModel);
+
+        RecyclerView rvDiary =binding.rvDiaries;
         rvDiary.setHasFixedSize(true);
         rvDiary.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rvDiary.addItemDecoration(new DividerItemDecoration(this, LinearLayout.VERTICAL));
 
-        mViewModel = new DiaryViewModel(getApplicationContext());
-
-        ArrayList<Diary> list = mViewModel.diaries;
-        LogUtil.i(TAG, "list=" + list.size() + "," + list.toString());
-
-        mViewModel.start();
-
-        DiaryAdapter adapter = new DiaryAdapter(list,this);
+        DiaryAdapter adapter = new DiaryAdapter(new ArrayList<Diary>(0),this);
         rvDiary.setAdapter(adapter);
 
         Intent intent = getIntent();
         setToolBarColor(intent.getIntExtra("Color", 0));
 
-        LogUtil.i(TAG, mDBHelper.test());
-
+        setSearchData(mViewModel);
     }
 
     @Override
@@ -82,11 +76,18 @@ public class DiaryActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        mViewModel.start();
+        mViewModel.start();
     }
 
+    /**
+     * 这个方法用databinding在xml中绑定监听
+     * @param id
+     */
     public void itemClicked(long id){
-        LogUtil.i(TAG,"id : "+ id);
+        LogUtil.i(TAG,"search是否展开："+menuItem.isActionViewExpanded());
+        if(menuItem.isActionViewExpanded()){
+            menuItem.collapseActionView();
+        }
         Intent intent=new Intent(this, DiaryEditActivity.class);
         intent.putExtra(Configure.ID,id);
         startActivity(intent);

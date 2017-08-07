@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.app.Activity;
+import android.preference.DialogPreference;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -16,15 +17,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.carrie.lianlian.App;
 import com.carrie.lianlian.R;
 import com.carrie.lianlian.dao.DBHelper;
+import com.carrie.lianlian.data.DiariesRepository;
+import com.carrie.lianlian.inter.DataSource;
 import com.carrie.lianlian.utils.ColorDeeperUtil;
 import com.carrie.lianlian.utils.LogUtil;
+
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 
 public abstract class BaseActivity extends AppCompatActivity {
     protected String TAG = "BaseActivity";
@@ -35,10 +42,15 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected boolean isDeeperStatusBar = false;
 
-    protected SearchView searchView;
+    protected SearchView mSearchView;
+    protected MenuItem menuItem;
     protected int mMenuLayout = R.menu.menu_toolbar;
     protected DBHelper mDBHelper;
     private FloatingActionButton mFAB;
+
+    protected DiariesRepository mDiariesRepository;
+    protected DataSource.SearchData mSearchData;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +62,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         TAG = getClass().getSimpleName();
         LogUtil.i(TAG, "TAG=" + TAG);
 
+        mDiariesRepository = new DiariesRepository();
         mDBHelper = App.mDBHelper;
         mFAB.setOnClickListener(mListener);
 
@@ -58,16 +71,16 @@ public abstract class BaseActivity extends AppCompatActivity {
         initData();
     }
 
-   View.OnClickListener mListener = new View.OnClickListener() {
-       @Override
-       public void onClick(View v) {
-           setOnFABClick();
-       }
-   };
+    View.OnClickListener mListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            setOnFABClick();
+        }
+    };
 
-   protected void setOnFABClick(){
+    protected void setOnFABClick() {
 
-   }
+    }
 
     protected abstract void preView();
 
@@ -132,25 +145,50 @@ public abstract class BaseActivity extends AppCompatActivity {
         return statusView;
     }
 
+    protected void setSearchData(DataSource.SearchData searchData) {
+        mSearchData = searchData;
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(mMenuLayout, menu);
-        final MenuItem menuItem = menu.findItem(R.id.menu_search);
+        menuItem = menu.findItem(R.id.menu_search);
         if (menuItem != null) {
-            searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            mSearchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+            mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override
                 public boolean onQueryTextSubmit(String query) {
-                    if (!searchView.isIconified()) {
-                        searchView.setIconified(true);
+                    if (!mSearchView.isIconified()) {
+                        mSearchView.setIconified(true);
                     }
                     menuItem.collapseActionView();
+                    mSearchData.queryData(query);
                     return false;
                 }
 
                 @Override
                 public boolean onQueryTextChange(String newText) {
                     return false;
+                }
+            });
+            ImageView closeButton = (ImageView) mSearchView.findViewById(R.id.search_close_btn);
+            // Set on click listener
+            closeButton.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    //Find EditText view
+                    EditText et = (EditText) findViewById(R.id.search_src_text);
+                    //Clear the text from EditText view
+                    et.setText("");
+                    //Clear query
+                    mSearchView.setQuery("", false);
+                    //Collapse the action view
+                    mSearchView.onActionViewCollapsed();
+                    //Collapse the search widget
+                    menuItem.collapseActionView();
+
+                    mSearchData.clearData();
                 }
             });
         }

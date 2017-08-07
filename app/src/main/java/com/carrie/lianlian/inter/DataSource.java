@@ -2,6 +2,8 @@ package com.carrie.lianlian.inter;
 
 import android.support.annotation.NonNull;
 
+import com.carrie.lianlian.dao.Diary;
+
 import java.util.ArrayList;
 
 /**
@@ -33,5 +35,13 @@ public interface DataSource<T> {
     void getData(@NonNull LoadDataCallback<T> callback);
 
     void deleteItemData(int _id);
+
+    interface SearchData{
+        void queryData(String queryText);
+
+        void clearData();
+    }
+
+
 
 }

@@ -1,6 +1,5 @@
 package com.carrie.lianlian.activity;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -18,11 +17,13 @@ import android.widget.Toast;
 import com.carrie.lianlian.R;
 import com.carrie.lianlian.databinding.ActivityDiaryEditBinding;
 import com.carrie.lianlian.utils.Configure;
+import com.carrie.lianlian.utils.LogUtil;
 import com.carrie.lianlian.viewModel.DiaryEditViewModel;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import static android.R.attr.id;
-
+/**
+ * 接收跳转参数：Configure.ID
+ */
 public class DiaryEditActivity extends AppCompatActivity {
     private static final String TAG = "DiaryEditActivity";
     private MaterialEditText metTitle;
@@ -31,12 +32,7 @@ public class DiaryEditActivity extends AppCompatActivity {
     private DiaryEditViewModel mViewModel;
     private long mDiaryId;
     private FloatingActionButton fab;
-
-    private AppBarState state;
-    private enum AppBarState{
-        EXPANDED,//展开
-        COLLAPSED,//折叠
-    }
+    private boolean isBindingFinished = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,27 +41,18 @@ public class DiaryEditActivity extends AppCompatActivity {
 
         bindViewModel();
         setupToolBar();
-
-        metTitle = binding.includeContent.etDiaryTitle;
-        metContent = binding.includeContent.etDiary;
+        setupView();
 
         mDiaryId=getIntent().getLongExtra(Configure.ID,0);
         mViewModel.start(mDiaryId);
 
-
-        fab = binding.includeContent.fabEditDiary;
-
         binding.appBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if(verticalOffset==0){//展开状态
-                    state=AppBarState.EXPANDED;
-                    fab.setVisibility(View.INVISIBLE);
-                    fab.setClickable(false);
-                }else if(Math.abs(verticalOffset)>=binding.appBar.getTotalScrollRange()){//折叠状态
-                    state=AppBarState.COLLAPSED;
-                    fab.setVisibility(View.VISIBLE);
-                    fab.setClickable(true);
+                if(verticalOffset==0){//展开状态,不显示FAB
+                    mViewModel.isShowFAB(false);
+                }else if(Math.abs(verticalOffset)>=binding.appBar.getTotalScrollRange()){//折叠状态,显示FAB
+                    mViewModel.isShowFAB(true);
                 }
             }
         });
@@ -82,7 +69,7 @@ public class DiaryEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 mViewModel.save();
-//                showSnackBar();
+                showSnackBar();
             }
         });
 
@@ -128,6 +115,13 @@ public class DiaryEditActivity extends AppCompatActivity {
         binding.setViewmodel(mViewModel);
         binding.includeContent.setViewmodel(mViewModel);
         binding.includeHeader.setViewmodel(mViewModel);
+        isBindingFinished = true;
+    }
+
+    private void setupView(){
+        metTitle = binding.includeContent.etDiaryTitle;
+        metContent = binding.includeContent.etDiary;
+        fab = binding.includeContent.fabEditDiary;
     }
 
     private void setupToolBar(){

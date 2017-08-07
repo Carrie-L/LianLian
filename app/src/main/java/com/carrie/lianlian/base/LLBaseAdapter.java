@@ -6,6 +6,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.carrie.lianlian.dao.Diary;
+import com.carrie.lianlian.utils.LogUtil;
+
+import java.util.ArrayList;
+
 import static android.R.attr.value;
 
 /**
@@ -38,6 +43,10 @@ public abstract class LLBaseAdapter extends RecyclerView.Adapter<LLBaseViewHolde
 
     protected void bindVariable(ViewDataBinding binding){
 
+    }
+
+    protected void updateList(){
+        notifyDataSetChanged();
     }
 
 }

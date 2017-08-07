@@ -1,14 +1,11 @@
 package com.carrie.lianlian.viewModel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.ObservableArrayList;
 import android.databinding.ObservableField;
 import android.support.annotation.NonNull;
 
-import com.carrie.lianlian.BR;
-import com.carrie.lianlian.activity.DiaryEditActivity;
 import com.carrie.lianlian.dao.Diary;
 import com.carrie.lianlian.data.DiariesRepository;
 import com.carrie.lianlian.inter.DataSource;
@@ -17,13 +14,13 @@ import com.carrie.lianlian.utils.LogUtil;
 
 import java.util.ArrayList;
 
-import io.fabric.sdk.android.services.concurrency.Task;
 
 /**
  * Created by new on 2017/7/28.
  */
 
-public class DiaryViewModel extends BaseObservable {
+public class DiaryViewModel extends BaseObservable implements DiaryDataSource.SearchData {
+    private static final String TAG = "DiaryViewModel";
 
     public final ObservableField<String> title = new ObservableField<>();
     public final ObservableField<String> updateDate = new ObservableField<>();
@@ -32,29 +29,45 @@ public class DiaryViewModel extends BaseObservable {
 
     public final ObservableArrayList<Diary> diaries = new ObservableArrayList<>();
 
-    private final ObservableField<Diary> mDiaryObservable = new ObservableField<>();
+    private ArrayList<Diary> mCacheDiaries = new ArrayList<>();
 
-    private DiariesRepository mRepository =new DiariesRepository();
+    private DiariesRepository mRepository;
 
     private Context mContext;
 
-    public DiaryViewModel(Context context){
-        mContext=context.getApplicationContext();
+    public DiaryViewModel(Context context, DiariesRepository repository) {
+        mContext = context.getApplicationContext();
+        mRepository = repository;
     }
 
-    public ArrayList<Diary> getAllDiaries(){
+    public ArrayList<Diary> getAllDiaries() {
         return mRepository.getDiaryAllList();
     }
 
-    public void start(){
+    public void start() {
         diaries.clear();
-        diaries.addAll(mRepository.getDiaryAllList());
+        if (!mCacheDiaries.isEmpty()) {
+            diaries.addAll(mCacheDiaries);
+            LogUtil.i(TAG, "start: mCacheDiaries != empty, " + mCacheDiaries.size());
+        } else {
+            diaries.addAll(getAllDiaries());
+            mCacheDiaries.addAll(diaries);
+            LogUtil.i(TAG, "start: mCacheDiaries == empty, " + mCacheDiaries.size());
+        }
+
     }
 
+    @Override
+    public void queryData(String queryText) {
+        diaries.clear();
+        diaries.addAll(mRepository.queryData(queryText));
+    }
 
-
-
-
-
-
+    @Override
+    public void clearData() {
+        if (!diaries.isEmpty()) {
+            diaries.clear();
+        }
+        diaries.addAll(mCacheDiaries);
+    }
 }
